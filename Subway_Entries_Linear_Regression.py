@@ -12,11 +12,19 @@ import statsmodels.api as sm
 import matplotlib.pyplot as plt
 import statsmodels.formula.api as smf
 import datetime
-import ggplot
+from ggplot import *
 
 def plot_residuals(predictions,data):
     plt.figure()
-    (data['ENTRIESn_hourly'] - predictions).hist(range=[-10000,10000],bins=20)
+    (data - predictions).hist(range=[-10000,10000],bins=20)
+    """
+    s_y = pandas.Series(predictions-data)
+    s_x = pandas.Series(range(0,len(s_y))) 
+    df = pandas.DataFrame({'residuals': s_y, 
+                           'num': s_x})
+    
+    plt = ggplot(df, aes('num', 'residuals')) + geom_point() + ggtitle("Avg Entries by Variable") + xlab("num") + ylab("residuals")
+    """    
     print plt
 
 def mann_whit_test(dataframe,var):
