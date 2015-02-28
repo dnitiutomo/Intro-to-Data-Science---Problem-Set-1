@@ -16,15 +16,13 @@ from ggplot import *
 
 def plot_residuals(predictions,data):
     plt.figure()
-    (data - predictions).hist(range=[-10000,10000],bins=20)
-    """
-    s_y = pandas.Series(predictions-data)
-    s_x = pandas.Series(range(0,len(s_y))) 
-    df = pandas.DataFrame({'residuals': s_y, 
-                           'num': s_x})
+    (data - predictions).hist(range=[-5000,5000],bins=40)
     
-    plt = ggplot(df, aes('num', 'residuals')) + geom_point() + ggtitle("Avg Entries by Variable") + xlab("num") + ylab("residuals")
-    """    
+    plt.title('Distribution of Prediction Residuals')
+    plt.xlabel('Residuals')
+    plt.ylabel('Frequency')
+    plt.legend()
+    
     print plt
 
 def mann_whit_test(dataframe,var):
@@ -56,20 +54,20 @@ def normalize_features(array):
    return array_normalized, mu, sigma
 
 def predictions_OLS(dataframe):
-    X = dataframe.copy()
-    y = X.pop('ENTRIESn_hourly')
-    avgs = y.groupby(X.UNIT).mean()
+    #X = dataframe.copy()
+    #y = X.pop('ENTRIESn_hourly')
+    #avgs = y.groupby(X.UNIT).mean()
     
-    dataframe['UNIT_avg'] = dataframe.apply(lambda row: get_avg_for_unit(row,avgs),axis=1)
-    dataframe['UNIT_ord'] = pandas.Categorical(dataframe.UNIT).labels
+    #dataframe['UNIT_avg'] = dataframe.apply(lambda row: get_avg_for_unit(row,avgs),axis=1)
+    #dataframe['UNIT_ord'] = pandas.Categorical(dataframe.UNIT).labels
     
     dataframe['Day'] = df.apply(convert_to_day,1)  
 
     Y = dataframe['ENTRIESn_hourly']
-    X = dataframe[['UNIT_avg','rain']]
+    X = dataframe[[]]
     
-    #dummy_units = pandas.get_dummies(dataframe['UNIT'], prefix='unit')    
-    #X = X.join(dummy_units)
+    dummy_units = pandas.get_dummies(dataframe['UNIT'], prefix='unit')    
+    X = X.join(dummy_units)
     
     dummy_hour = pandas.get_dummies(dataframe['Hour'])
     X = X.join(dummy_hour)    
@@ -139,16 +137,14 @@ def predictions(dataframe):
     m = len(values)
 
     features, mu, sigma = normalize_features(features)
-    features['ones'] = np.ones(m) # Add a column of 1s (y intercept), this is for the constant
+    features['ones'] = np.ones(m)
     
     features_array = np.array(features)
     values_array = np.array(values)
 
-    # Set values for alpha, number of iterations.
     alpha = 1
     num_iterations = 200
 
-    # Initialize theta, perform gradient descent
     theta_gradient_descent = np.zeros(len(features.columns))
     theta_gradient_descent, cost_history = gradient_descent(features_array, 
                                                             values_array, 
@@ -187,10 +183,10 @@ df = pandas.read_csv(r'C:\Users\Daniel\Documents\OnlineLearning\Intro to DS\Gith
 #mann_whit_test(df,'fog')
 
 
-grad_descent = predictions(df)
+#grad_descent = predictions(df)
 ols = predictions_OLS(df)
 
-plot_residuals(grad_descent,df['ENTRIESn_hourly'])
+plot_residuals(ols,df['ENTRIESn_hourly'])
 
 #print compute_r_squared(df['ENTRIESn_hourly'],grad_descent)
 print compute_r_squared(df['ENTRIESn_hourly'],ols)
