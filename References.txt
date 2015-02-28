@@ -1,0 +1,13 @@
+Daniel Nitiutomo - Intro to Data Science Problem Set 1 
+References Used:
+
+1. http://simon.cs.vt.edu/SoSci/converted/Regression/activity.html
+2. http://dss.princeton.edu/online_help/analysis/dummy_variables.htm
+3. An Introduction to Statistical Learning with Applications in R by Gareth James, Daniela Witten, Trevor Hastie, Robert Tibshirani; Chapter 3
+4. https://github.com/yhat/ggplot/
+5. http://matplotlib.org/1.3.1/examples/pylab_examples/histogram_demo_extended.html
+6. http://pandas.pydata.org/pandas-docs/dev/
+7. Udacity - Understanding Mann-Whitney U Test
+8. Udacity - Gradient Descent
+9. http://en.wikipedia.org/wiki/Gradient_descent
+10. http://www.datarobot.com/blog/multiple-regression-using-statsmodels/
